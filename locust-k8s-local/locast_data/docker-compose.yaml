@@ -1,0 +1,15 @@
+version: '3'
+services:
+  master:
+    image: loadtest
+    ports:
+     - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/web.py --master -H http://master:8089
+
+  worker:
+    image: loadtest
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/web.py --worker --master-host master

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-worker
+  labels:
+    name: locust-worker
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: locust-worker
+  template:
+    metadata:
+      labels:
+        app: locust-worker
+    spec:
+      containers:
+        - name: locust-worker
+          image: souravsharma035/locust:v1
+          #          command: ["/bin/bash", "-c", "-f /mnt/locust/pwa.py --master -H http://locust-master:8089"]
+          env:
+            - name: LOCUST_MODE
+              value: worker
+            - name: LOCUST_MASTER_URL
+              value: locust-master
+            - name: TARGET_HOST
+              value: locust-master
+          volumeMounts:
+            - name: pv-claim2
+              mountPath: /mnt/locust
+
+
+
+      volumes:
+      - name: pv-claim2
+        persistentVolumeClaim:
+          claimName: pv-claim1
+

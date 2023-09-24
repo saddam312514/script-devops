@@ -1,0 +1,21 @@
+"Server Refused our key" after launching instance
+
+Why am I getting a "Server refused our key" error when I try to connect to my EC2 instance using SSH?
+
+Solution:-1
+For EC2-User
+$ sudo chown root:root /home
+$ sudo chmod 755 /home
+$ sudo chown ec2-user:ec2-user /home/ec2-user -R
+$ sudo chmod 700 /home/ec2-user /home/ec2-user/.ssh
+$ sudo chmod 600 /home/ec2-user/.ssh/authorized_keys
+
+Solution:-2
+
+For ubuntu user
+
+open the /etc/ssh/sshd_config file and add the below code
+
+PubkeyAcceptedAlgorithms +ssh-rsa
+and save the file and systemctl restart sshd to restart the sshd service Hopefully you key will work perfectly
+
